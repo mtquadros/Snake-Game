@@ -1,8 +1,7 @@
 #  Snake Game
 
-This project is part of C++ course and is a requirement for gradutation on this program.
-The original version can be found at the repo [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213).
-This game is called Snake Game. The goal is to guide the snake to eat the apple. Use direction buttons to set the direction (left, right, up, down) the snake is going to. Each time the snake eats the food his tail grows up.
+This game is called Snake Game. The goal is to guide the snake to eat the apple. Use direction buttons to set the direction (left, right, up, down) the snake is going to. Each time the snake eats the food his body grows up and score is incremented. If the snake eats his own body the game ends.
+The sample code can be found at the repo [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213).
 
 <img src="snake_game.gif"/>
 
