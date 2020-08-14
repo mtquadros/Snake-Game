@@ -11,8 +11,10 @@ class Renderer {
            const std::size_t grid_width, const std::size_t grid_height);
   ~Renderer();
 
-  void Render(Snake const snake, SDL_Point const &food);
-  void UpdateWindowTitle(int score, int fps);
+  void Render(Snake const &snake, SDL_Point const &food);
+
+  // Memory management - First requirement
+  void UpdateWindowTitle(int const &score, int const &fps);
 
  private:
   SDL_Window *sdl_window;
