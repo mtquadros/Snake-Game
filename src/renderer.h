@@ -13,7 +13,7 @@ class Renderer {
 
   void Render(Snake const &snake, SDL_Point const &food);
 
-  // Memory management - First requirement
+  // Rubric point: Memory management - First requirement
   void UpdateWindowTitle(int const &score, int const &fps);
 
  private:

@@ -11,6 +11,8 @@ The sample code can be found at the repo [Udacity C++ Nanodegree Program](https:
 ### Memory Management
 * The project makes use of references in function declarations
   * files: renderer.h (lines 14, 17); renderer.cpp (lines 42, 80)
+* The project uses destructors appropriately
+  * files: renderer.cpp (line 38)
 
 ## Structure and output of the program
 
