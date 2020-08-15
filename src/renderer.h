@@ -2,8 +2,31 @@
 #define RENDERER_H
 
 #include <vector>
+#include <memory>
+#include <iostream>
 #include "SDL.h"
 #include "snake.h"
+
+// Rubric point: Memory Management - Sixth requirement
+class PtrDeleter{
+    public:
+      PtrDeleter(){}
+      void operator()(SDL_Window* p)
+      {
+        if (p != nullptr)
+        {
+          SDL_DestroyWindow(p); 
+        }
+      }
+      void operator()(SDL_Renderer* p)
+      {
+        if (p != nullptr)
+        {
+          SDL_DestroyRenderer(p);
+        }
+      }
+};
+
 
 class Renderer {
  public:
@@ -17,13 +40,15 @@ class Renderer {
   void UpdateWindowTitle(int const &score, int const &fps);
 
  private:
-  SDL_Window *sdl_window;
-  SDL_Renderer *sdl_renderer;
+  // Rubric point: Memory Management - Sixth requirement
+  std::unique_ptr<SDL_Window, PtrDeleter> sdl_window;
+  std::unique_ptr<SDL_Renderer, PtrDeleter> sdl_renderer;
 
   const std::size_t screen_width;
   const std::size_t screen_height;
   const std::size_t grid_width;
   const std::size_t grid_height;
+
 };
 
 #endif

@@ -9,10 +9,10 @@ The sample code can be found at the repo [Udacity C++ Nanodegree Program](https:
 ## Rubric points addressed
 
 ### Memory Management
-* The project makes use of references in function declarations
-  * files: renderer.h (lines 14, 17); renderer.cpp (lines 42, 80)
-* The project uses destructors appropriately
-  * files: renderer.cpp (line 38)
+* First requirement: The project makes use of references in function declarations
+  * files: renderer.h (lines 37, 40); renderer.cpp (lines 44, 82)
+* Sixth requirement: The project uses smart pointers instead of raw pointers
+  * files: renderer.h (lines 11-29, 45, 46); renderer.cpp (lines 18, 20, 21, 31, 32) 
 
 ## Structure and output of the program
 
