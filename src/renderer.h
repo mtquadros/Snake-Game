@@ -36,11 +36,8 @@ class Renderer {
 
   void Render(Snake const &snake, SDL_Point const &food);
 
-<<<<<<< HEAD
   // Rubric point: Memory management - First requirement
-=======
-  // Memory management - First requirement
->>>>>>> 3be7ee733506fd656c13a5eb14eff8c247cf230f
+
   void UpdateWindowTitle(int const &score, int const &fps);
 
  private:
