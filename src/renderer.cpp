@@ -40,7 +40,11 @@ Renderer::~Renderer() {
  SDL_Quit();
 }
 
+<<<<<<< HEAD
 // Rubric point: Memory management - First requirement
+=======
+// Memory management - First requirement
+>>>>>>> 3be7ee733506fd656c13a5eb14eff8c247cf230f
 void Renderer::Render(Snake const &snake, SDL_Point const &food) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
@@ -78,7 +82,11 @@ void Renderer::Render(Snake const &snake, SDL_Point const &food) {
   SDL_RenderPresent(sdl_renderer.get());
 }
 
+<<<<<<< HEAD
  // Rubric point: Memory management - First requirement
+=======
+ // Memory management - First requirement
+>>>>>>> 3be7ee733506fd656c13a5eb14eff8c247cf230f
 void Renderer::UpdateWindowTitle(int const &score, int const &fps) {
   std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window.get(), title.c_str());
