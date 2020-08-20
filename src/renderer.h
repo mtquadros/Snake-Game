@@ -28,6 +28,14 @@ class PtrDeleter{
           SDL_DestroyRenderer(p);
         }
       }
+      void operator()(SDL_Texture* p)
+      {
+        if (p != nullptr)
+        {
+          SDL_DestroyTexture(p);
+        }
+      }
+
 };
 
 
