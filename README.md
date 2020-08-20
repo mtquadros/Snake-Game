@@ -1,9 +1,28 @@
 #  Snake Game
 
-This game is called Snake Game. The goal is to guide the snake to eat the apple. Use direction buttons to set the direction (left, right, up, down) the snake is going to. Each time the snake eats the food his body grows up and score is incremented. If the snake eats his own body the game ends.
-The sample code can be found at the repo [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213).
+## Project description
+This project is a 2D game written in C++ with SDL library for graphic rendering.
+It's called Snake Game. The goal is to guide the snake to eat the apple. Use direction buttons to set the direction (left, right, up, down) the snake is going to. Each time the snake eats the food his body grows up and score is incremented. If the snake eats his own body the game ends.
+The starter code can be found at the repo (https://github.com/udacity/CppND_Capstone_Snake_Game).
 
 <img src="snake_game.gif"/>
+
+## Rubric points addressed
+
+### Memory Management
+* 1st requirement: The project makes use of references in function declarations
+  * files: renderer.h (lines 37, 40); renderer.cpp (lines 44, 82)
+* 6th requirement: The project uses smart pointers instead of raw pointers
+  * files: renderer.h (lines 11-29, 45, 46); renderer.cpp (lines 18, 20, 21, 31, 32) 
+
+### Object Oriented Programming
+* 7th requirement: Overloaded functions allow the same function to operate on different parameters
+  * files: renderer.h (lines 17-30); renderer.cpp (lines 44, 82)
+
+## Structure and output of the program
+
+
+
 
 ## Dependencies for Running Locally
 * cmake >= 3.7
