@@ -17,21 +17,34 @@ class Snake {
   void Update();
 
   void GrowBody();
-  bool SnakeCell(int x, int y);
+  bool SnakeIsAtCell(int x, int y);
 
-  Direction direction = Direction::kUp;
-
-  float speed{0.1f};
-  int size{1};
-  bool alive{true};
-  float head_x;
-  float head_y;
-  std::vector<SDL_Point> body;
+  // DONE : OOP Features * Access to private member variables by Member functions.
+  Direction GetDirection() const;
+  void SetDirection(Direction direction);
+  float GetSpeed() const;
+  int GetSize() const;
+  void SetHeadXPosition(float x);
+  void SetHeadYPosition(float y);
+  float GetHeadPosX() const;
+  float GetHeadPosY() const;
+  bool IsAlive() const;
+  void IncrementSpeedBy(float inc); // Increment speed
+  const std::vector<SDL_Point> GetBody() const;
+  
 
  private:
   void UpdateHead();
   void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
 
+  std::vector<SDL_Point> body;
+  float head_x;
+  float head_y;
+  float speed{0.1f};
+  bool alive{true};
+
+  Direction direction = Direction::kUp;
+  int size{1};
   bool growing{false};
   int grid_width;
   int grid_height;

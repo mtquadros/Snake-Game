@@ -5,8 +5,7 @@
 void Snake::Update() {
   SDL_Point prev_cell{
       static_cast<int>(head_x),
-      static_cast<int>(
-          head_y)};  // We first capture the head's cell before updating.
+      static_cast<int>(head_y)};  // We first capture the head's cell before updating.
   UpdateHead();
   SDL_Point current_cell{
       static_cast<int>(head_x),
@@ -39,8 +38,8 @@ void Snake::UpdateHead() {
   }
 
   // Wrap the Snake around to the beginning if going off of the screen.
-  head_x = fmod(head_x + grid_width, grid_width);
-  head_y = fmod(head_y + grid_height, grid_height);
+  SetHeadXPosition(fmod(GetHeadPosX() + grid_width, grid_width));
+  SetHeadYPosition(fmod(GetHeadPosY() + grid_height, grid_height));
 }
 
 void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell) {
@@ -66,7 +65,7 @@ void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell) 
 void Snake::GrowBody() { growing = true; }
 
 // Inefficient method to check if cell is occupied by snake.
-bool Snake::SnakeCell(int x, int y) {
+bool Snake::SnakeIsAtCell(int x, int y) {
   if (x == static_cast<int>(head_x) && y == static_cast<int>(head_y)) {
     return true;
   }
@@ -76,4 +75,59 @@ bool Snake::SnakeCell(int x, int y) {
     }
   }
   return false;
+}
+// DONE : OOP Features * Access to private member variables by member functions.
+Snake::Direction Snake::GetDirection() const
+{
+  return direction;
+}
+
+int Snake::GetSize() const
+{
+  return size;
+}
+
+float Snake::GetSpeed() const
+{
+  return speed;
+}
+
+void Snake::SetHeadXPosition(float x)
+{
+  head_x = x;
+}
+
+void Snake::SetHeadYPosition(float y)
+{
+  head_y = y;
+}
+
+void Snake::SetDirection(Direction direction)
+{
+  Snake::direction = direction;
+}
+
+float Snake::GetHeadPosX() const
+{
+  return head_x;
+}
+
+float Snake::GetHeadPosY() const
+{
+  return head_y;
+}
+
+bool Snake::IsAlive() const
+{
+  return alive;
+}
+
+void Snake::IncrementSpeedBy(float inc)
+{
+  speed += abs(inc);
+}
+
+const std::vector<SDL_Point> Snake::GetBody() const
+{
+  return body;
 }
