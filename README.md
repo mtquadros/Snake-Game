@@ -13,12 +13,13 @@ The starter code can be found at the repo (https://github.com/udacity/CppND_Caps
 * 1st requirement: The project makes use of references in function declarations
   * files: renderer.h (lines 37, 40); renderer.cpp (lines 44, 82)
 * 6th requirement: The project uses smart pointers instead of raw pointers
-  * files: renderer.h (lines 11-29, 45, 46); renderer.cpp (lines 18, 20, 21, 31, 32) 
+  * files: renderer.h (lines 11 to 29, 45, 46); renderer.cpp (lines 18, 20, 21, 31, 32) 
 
 ### Object Oriented Programming
 * 7th requirement: Overloaded functions allow the same function to operate on different parameters
-  * files: renderer.h (lines 17-30); renderer.cpp (lines 44, 82)
-
+  * files: renderer.h (lines 17 to 30); renderer.cpp (lines 44, 82)
+* 5th requirement: Classes encapsulate behaviour
+  * files: snake.cpp (lines ); snake.h (lines 20 to 47)
 ## Structure and output of the program
 
 
