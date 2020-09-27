@@ -35,6 +35,10 @@ void Controller::HandleInput(bool &running, Snake &snake) const {
           ChangeDirection(snake, Snake::Direction::kRight,
                           Snake::Direction::kLeft);
           break;
+
+        case SDLK_q: // User click on q to quit the game
+          throw 1;
+          break;
       }
     }
   }
