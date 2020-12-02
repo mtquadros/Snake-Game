@@ -6,13 +6,25 @@
 
 class Snake {
  public:
-  enum class Direction { kUp, kDown, kLeft, kRight };
+  // Each element of Direction relates to direction is moving to and angle the snake has to be rendered  
+  enum class Direction { kUp = 0, kDown = 180, kLeft = 270, kRight = 90 };
+
+  struct Body {
+    int x;
+    int y;
+    double angle;
+  };
+
+  struct Head {
+    float x;
+    float y;
+    double angle;
+  };
 
   Snake(int grid_width, int grid_height)
       : grid_width(grid_width),
         grid_height(grid_height),
-        head_x(grid_width / 2),
-        head_y(grid_height / 2) {}
+        head({static_cast<float>(grid_width / 2), static_cast<float>(grid_height / 2), 0}) {}
 
   void Update();
 
@@ -30,16 +42,21 @@ class Snake {
   float GetHeadPosY() const;
   bool IsAlive() const;
   void IncrementSpeedBy(float inc); // Increment speed
-  const std::vector<SDL_Point> GetBody() const;
+  void SetHeadAngle(double angle);
+  double GetHeadAngle() const;
+
+  std::vector<Body>& GetBody();
+  Head& GetHead();
   
 
  private:
   void UpdateHead();
-  void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
+  void UpdateBody(Body &current_head_cell, Body &prev_head_cell);
 
-  std::vector<SDL_Point> body;
-  float head_x;
-  float head_y;
+  std::vector<Body> body;
+  Head head;
+  //float head_x;
+  //float head_y;
   float speed{0.1f};
   bool alive{true};
 

@@ -8,12 +8,12 @@
 #include "snake.h"
 
 // Rubric point: Memory Management - 6th requirement
-// Deleter used to properly destroy Renderer::SDL_Window and Renderer::SDL_Redender members
+// PtrDeleter properly destroy SDL_Window, SDL_Redender and SDL_Texture unique pointers
 class PtrDeleter{
     public:
       PtrDeleter(){}
       // Rubric point: Object Oriented Programming - 7th requirement
-      // The operator () is oveloaded to allow the same deleter destroy SDL_Window and SDL_Renderer
+      // The operator () is oveloaded so the deleter knows how to destroy SDL_Window, SDL_Redender and SDL_Texture unique pointers
       void operator()(SDL_Window* p)
       {
         if (p != nullptr)
@@ -35,6 +35,13 @@ class PtrDeleter{
           SDL_DestroyTexture(p);
         }
       }
+      void operator()(SDL_Surface* p)
+      {
+        if (p != nullptr)
+        {
+          SDL_FreeSurface(p);
+        }
+      }
 
 };
 
@@ -42,10 +49,10 @@ class PtrDeleter{
 class Renderer {
  public:
   Renderer(const std::size_t screen_width, const std::size_t screen_height,
-           const std::size_t grid_width, const std::size_t grid_height);
+           const std::size_t grid_width, const std::size_t grid_height, const std::size_t display_width, const std::size_t display_height);
   ~Renderer();
 
-  void Render(Snake const &snake, SDL_Point const &food);
+  void Render(Snake &snake, SDL_Point const &food);
 
   // Rubric point: Memory management - 1st requirement
   void UpdateWindowTitle(int const &score, int const &fps);
@@ -55,11 +62,26 @@ class Renderer {
   std::unique_ptr<SDL_Window, PtrDeleter> sdl_window;
   std::unique_ptr<SDL_Renderer, PtrDeleter> sdl_renderer;
 
+  std::unique_ptr<SDL_Surface, PtrDeleter> sdl_surf_food;
+  std::unique_ptr<SDL_Surface, PtrDeleter> sdl_surf_head;
+  std::unique_ptr<SDL_Surface, PtrDeleter> sdl_surf_body;
+  std::unique_ptr<SDL_Surface, PtrDeleter> sdl_surf_tail;
+
+  std::unique_ptr<SDL_Texture, PtrDeleter> sdl_text_food;
+  std::unique_ptr<SDL_Texture, PtrDeleter> sdl_text_head;
+  std::unique_ptr<SDL_Texture, PtrDeleter> sdl_text_body;
+  std::unique_ptr<SDL_Texture, PtrDeleter> sdl_text_tail;
+
   const std::size_t screen_width;
   const std::size_t screen_height;
   const std::size_t grid_width;
   const std::size_t grid_height;
-
+  const std::size_t display_width;
+  const std::size_t display_height;
+  const char* img_food = "../food.bmp";
+  const char* img_head = "../head.bmp";
+  const char* img_body = "../body.bmp";
+  const char* img_tail = "../tail.bmp";
 };
 
 #endif

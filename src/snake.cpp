@@ -3,15 +3,15 @@
 #include <iostream>
 
 void Snake::Update() {
-  SDL_Point prev_cell{
-      static_cast<int>(head_x),
-      static_cast<int>(head_y)};  // We first capture the head's cell before updating.
+  Body prev_cell{
+      static_cast<int>(head.x),
+      static_cast<int>(head.y),head.angle};  // We first capture the head's cell before updating.
   UpdateHead();
-  SDL_Point current_cell{
-      static_cast<int>(head_x),
-      static_cast<int>(head_y)};  // Capture the head's cell after updating.
+  Body current_cell{
+      static_cast<int>(head.x),
+      static_cast<int>(head.y),head.angle};  // Capture the head's cell after updating.
 
-  // Update all of the body vector items if the snake head has moved to a new
+  // Update all of the GetBody() vector items if the snake head has moved to a new
   // cell.
   if (current_cell.x != prev_cell.x || current_cell.y != prev_cell.y) {
     UpdateBody(current_cell, prev_cell);
@@ -19,43 +19,44 @@ void Snake::Update() {
 }
 
 void Snake::UpdateHead() {
+  head.angle = static_cast<double>(direction);
   switch (direction) {
     case Direction::kUp:
-      head_y -= speed;
+      head.y -= speed;
       break;
 
     case Direction::kDown:
-      head_y += speed;
+      head.y += speed;
       break;
 
     case Direction::kLeft:
-      head_x -= speed;
+      head.x -= speed;
       break;
 
     case Direction::kRight:
-      head_x += speed;
+      head.x += speed;
       break;
   }
 
   // Wrap the Snake around to the beginning if going off of the screen.
-  SetHeadXPosition(fmod(GetHeadPosX() + grid_width, grid_width));
-  SetHeadYPosition(fmod(GetHeadPosY() + grid_height, grid_height));
+  head.x = fmod(head.x + grid_width, grid_width);
+  head.y = fmod(head.y + grid_height, grid_height);
 }
 
-void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell) {
+void Snake::UpdateBody(Snake::Body &current_head_cell, Snake::Body &prev_head_cell) {
   // Add previous head location to vector
-  body.push_back(prev_head_cell);
+  GetBody().push_back(prev_head_cell);
 
   if (!growing) {
     // Remove the tail from the vector.
-    body.erase(body.begin());
+    GetBody().erase(GetBody().begin());
   } else {
     growing = false;
     size++;
   }
 
   // Check if the snake has died.
-  for (auto const &item : body) {
+  for (auto const &item : GetBody()) {
     if (current_head_cell.x == item.x && current_head_cell.y == item.y) {
       alive = false;
     }
@@ -66,16 +67,17 @@ void Snake::GrowBody() { growing = true; }
 
 // Inefficient method to check if cell is occupied by snake.
 bool Snake::SnakeIsAtCell(int x, int y) {
-  if (x == static_cast<int>(head_x) && y == static_cast<int>(head_y)) {
+  if (x == static_cast<int>(head.x) && y == static_cast<int>(head.y)) {
     return true;
   }
-  for (auto const &item : body) {
+  for (auto const &item : GetBody()) {
     if (x == item.x && y == item.y) {
       return true;
     }
   }
   return false;
 }
+
 // DONE : OOP Features * Access to private member variables by member functions.
 Snake::Direction Snake::GetDirection() const
 {
@@ -94,12 +96,12 @@ float Snake::GetSpeed() const
 
 void Snake::SetHeadXPosition(float x)
 {
-  head_x = x;
+  head.x = x;
 }
 
 void Snake::SetHeadYPosition(float y)
 {
-  head_y = y;
+  head.y = y;
 }
 
 void Snake::SetDirection(Direction direction)
@@ -109,12 +111,12 @@ void Snake::SetDirection(Direction direction)
 
 float Snake::GetHeadPosX() const
 {
-  return head_x;
+  return head.x;
 }
 
 float Snake::GetHeadPosY() const
 {
-  return head_y;
+  return head.y;
 }
 
 bool Snake::IsAlive() const
@@ -127,7 +129,23 @@ void Snake::IncrementSpeedBy(float inc)
   speed += abs(inc);
 }
 
-const std::vector<SDL_Point> Snake::GetBody() const
+std::vector<Snake::Body>& Snake::GetBody()
 {
   return body;
 }
+
+Snake::Head& Snake::GetHead()
+{
+  return head;
+}
+
+void Snake::SetHeadAngle(double angle)
+{
+  head.angle = angle;
+}
+
+double Snake::GetHeadAngle() const
+{
+  return head.angle;
+}
+

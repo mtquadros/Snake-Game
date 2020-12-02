@@ -4,11 +4,12 @@
 
 Renderer::Renderer(const std::size_t screen_width,
                    const std::size_t screen_height,
-                   const std::size_t grid_width, const std::size_t grid_height)
+                   const std::size_t grid_width, const std::size_t grid_height, const std::size_t display_width, const std::size_t display_height)
     : screen_width(screen_width),
       screen_height(screen_height),
-      grid_width(grid_width),
-      grid_height(grid_height) {
+      grid_width(grid_width), grid_height(grid_height),
+      display_width(display_width), display_height(display_height) {
+
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     std::cerr << "SDL could not initialize.\n";
@@ -34,6 +35,31 @@ Renderer::Renderer(const std::size_t screen_width,
     std::cerr << "Renderer could not be created.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
+
+  sdl_surf_food = std::unique_ptr<SDL_Surface,PtrDeleter>(nullptr,ptr_deleter);
+  sdl_surf_head = std::unique_ptr<SDL_Surface,PtrDeleter>(nullptr,ptr_deleter);
+  sdl_surf_body = std::unique_ptr<SDL_Surface,PtrDeleter>(nullptr,ptr_deleter);
+  sdl_surf_tail = std::unique_ptr<SDL_Surface,PtrDeleter>(nullptr,ptr_deleter);
+  sdl_surf_food.reset(SDL_LoadBMP(img_food));
+  sdl_surf_head.reset(SDL_LoadBMP(img_head));
+  sdl_surf_body.reset(SDL_LoadBMP(img_body));
+  sdl_surf_tail.reset(SDL_LoadBMP(img_tail));
+
+  if (!sdl_surf_food || !sdl_surf_head || !sdl_surf_body || !sdl_surf_tail)
+    {
+      std::cout << "Error loading image: " << SDL_GetError() << std::endl;
+      exit(1);
+    }
+  
+  sdl_text_food = std::unique_ptr<SDL_Texture, PtrDeleter>(nullptr,ptr_deleter);
+  sdl_text_head = std::unique_ptr<SDL_Texture, PtrDeleter>(nullptr,ptr_deleter);
+  sdl_text_body = std::unique_ptr<SDL_Texture, PtrDeleter>(nullptr,ptr_deleter);
+  sdl_text_tail = std::unique_ptr<SDL_Texture, PtrDeleter>(nullptr,ptr_deleter);
+
+  sdl_text_food.reset(SDL_CreateTextureFromSurface(sdl_renderer.get(),sdl_surf_food.get()));
+  sdl_text_head.reset(SDL_CreateTextureFromSurface(sdl_renderer.get(),sdl_surf_head.get()));
+  sdl_text_body.reset(SDL_CreateTextureFromSurface(sdl_renderer.get(),sdl_surf_body.get()));
+  sdl_text_tail.reset(SDL_CreateTextureFromSurface(sdl_renderer.get(),sdl_surf_tail.get()));
 }
 
 Renderer::~Renderer() {
@@ -41,7 +67,7 @@ Renderer::~Renderer() {
 }
 
 // Rubric point: Memory management - 1st requirement
-void Renderer::Render(Snake const &snake, SDL_Point const &food) {
+void Renderer::Render(Snake &snake, SDL_Point const &food) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
@@ -51,28 +77,34 @@ void Renderer::Render(Snake const &snake, SDL_Point const &food) {
   SDL_RenderClear(sdl_renderer.get());
 
   // Render food
-  SDL_SetRenderDrawColor(sdl_renderer.get(), 0xFF, 0xCC, 0x00, 0xFF);
   block.x = food.x * block.w;
   block.y = food.y * block.h;
-  SDL_RenderFillRect(sdl_renderer.get(), &block);
+  SDL_RenderCopyEx(sdl_renderer.get(), sdl_text_food.get(), nullptr, &block, 0, nullptr, SDL_FLIP_NONE);
 
   // Render snake's body
-  SDL_SetRenderDrawColor(sdl_renderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
-  for (SDL_Point const &point : snake.GetBody()) {
-    block.x = point.x * block.w;
-    block.y = point.y * block.h;
-    SDL_RenderFillRect(sdl_renderer.get(), &block);
-  }
-
-  // Render snake's head
-  block.x = static_cast<int>(snake.GetHeadPosX()) * block.w;
-  block.y = static_cast<int>(snake.GetHeadPosY()) * block.h;
-  if (snake.IsAlive()) {
-    SDL_SetRenderDrawColor(sdl_renderer.get(), 0x00, 0x7A, 0xCC, 0xFF);
-  } else {
-    SDL_SetRenderDrawColor(sdl_renderer.get(), 0xFF, 0x00, 0x00, 0xFF);
-  }
-  SDL_RenderFillRect(sdl_renderer.get(), &block);
+  if (!snake.GetBody().empty())
+    { 
+      for (auto body = snake.GetBody().begin() + 1; body != snake.GetBody().end(); body++){
+        block.x = body->x * block.w;
+        block.y = body->y * block.h;
+        // render the body but the tail
+        SDL_RenderCopyEx(sdl_renderer.get(), sdl_text_body.get(), nullptr, &block, body->angle, nullptr, SDL_FLIP_NONE);
+      }
+      // render the tail
+      auto body = snake.GetBody().front();
+      block.x = body.x * block.w;
+      block.y = body.y * block.h;
+      SDL_RenderCopyEx(sdl_renderer.get(), sdl_text_tail.get(), nullptr, &block, body.angle, nullptr, SDL_FLIP_NONE);
+    }
+      // Render snake's head
+      block.x = static_cast<int>(snake.GetHeadPosX()) * block.w;
+      block.y = static_cast<int>(snake.GetHeadPosY()) * block.h;
+      if (snake.IsAlive()) {
+        //SDL_SetRenderDrawColor(sdl_renderer.get(), 0x00, 0x7A, 0xCC, 0xFF);
+      } else {
+        //SDL_SetRenderDrawColor(sdl_renderer.get(), 0xFF, 0x00, 0x00, 0xFF);
+      }
+  SDL_RenderCopyEx(sdl_renderer.get(), sdl_text_head.get(), nullptr, &block, snake.GetHead().angle, nullptr, SDL_FLIP_NONE);
 
   // Update Screen
   SDL_RenderPresent(sdl_renderer.get());
