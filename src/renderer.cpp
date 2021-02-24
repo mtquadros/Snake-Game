@@ -15,11 +15,12 @@ Renderer::Renderer(const std::size_t screen_width,
     std::cerr << "SDL could not initialize.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
-  // Rubric point: Memory Management - 6th requirement
+  // Rubric point: Memory Management - 7th requirement
   PtrDeleter ptr_deleter;
+  // Rubric point: Memory Management - 6th requirement
   // Create Window
   sdl_window = std::unique_ptr<SDL_Window, PtrDeleter>(nullptr, ptr_deleter);
-  sdl_window.reset(SDL_CreateWindow("Snake Game", SDL_WINDOWPOS_CENTERED,
+  sdl_window.reset(SDL_CreateWindow("Snake Game - [Press q to quit]", SDL_WINDOWPOS_CENTERED,
                                 SDL_WINDOWPOS_CENTERED, screen_width,
                                 screen_height, SDL_WINDOW_SHOWN));
 
@@ -110,7 +111,7 @@ void Renderer::Render(Snake &snake, SDL_Point const &food) {
   SDL_RenderPresent(sdl_renderer.get());
 }
 
- // Rubric point: Memory management - First requirement
+ // Rubric point: Memory management - 1st requirement
 void Renderer::UpdateWindowTitle(int const &score, int const &fps) {
   std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window.get(), title.c_str());

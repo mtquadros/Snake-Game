@@ -7,12 +7,12 @@
 #include "SDL.h"
 #include "snake.h"
 
-// Rubric point: Memory Management - 6th requirement
+// Rubric point: Object Oriented Programming - 7th requirement
 // PtrDeleter properly destroy SDL_Window, SDL_Redender and SDL_Texture unique pointers
 class PtrDeleter{
     public:
       PtrDeleter(){}
-      // Rubric point: Object Oriented Programming - 7th requirement
+
       // The operator () is oveloaded so the deleter knows how to destroy SDL_Window, SDL_Redender and SDL_Texture unique pointers
       void operator()(SDL_Window* p)
       {

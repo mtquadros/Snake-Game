@@ -26,12 +26,11 @@ class Snake {
         grid_height(grid_height),
         head({static_cast<float>(grid_width / 2), static_cast<float>(grid_height / 2), 0}) {}
 
-  void Update();
 
+  // Rubric point : OOP Features - 5th requirement: Classes encapsulate behaviour
+  void Update();
   void GrowBody();
   bool SnakeIsAtCell(int x, int y);
-
-  // DONE : OOP Features * Access to private member variables by Member functions.
   Direction GetDirection() const;
   void SetDirection(Direction direction);
   float GetSpeed() const;
@@ -44,7 +43,6 @@ class Snake {
   void IncrementSpeedBy(float inc); // Increment speed
   void SetHeadAngle(double angle);
   double GetHeadAngle() const;
-
   std::vector<Body>& GetBody();
   Head& GetHead();
   
