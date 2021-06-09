@@ -72,7 +72,7 @@ void Renderer::Render(Snake &snake, SDL_Point const &food) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
-
+  
   // Clear screen
   SDL_SetRenderDrawColor(sdl_renderer.get(), 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(sdl_renderer.get());

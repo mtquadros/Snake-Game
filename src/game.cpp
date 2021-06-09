@@ -63,9 +63,12 @@ void Game::PlaceFood() {
   while (true) {
     x = random_w(engine);
     y = random_h(engine);
+    //x = random_w(0, static_cast<int>(grid_width));
+    //y = random_h(0, static_cast<int>(grid_height));
+
     // Check that the location is not occupied by a snake item before placing
     // food.
-    if (!snake.SnakeIsAtCell(x, y)) {
+    if ((!snake.SnakeIsAtCell(x, y)) && (x > 0) && (y > 0)) {
       food.x = x;
       food.y = y;
       return;
