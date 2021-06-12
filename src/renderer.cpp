@@ -113,6 +113,6 @@ void Renderer::Render(Snake &snake, SDL_Point const &food) {
 
  // Rubric point: Memory management - 1st requirement
 void Renderer::UpdateWindowTitle(int const &score, int const &fps) {
-  std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
+  std::string title{"[Press Q/q to quit] Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window.get(), title.c_str());
 }

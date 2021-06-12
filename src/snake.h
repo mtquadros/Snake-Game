@@ -39,10 +39,10 @@ class Snake {
   void SetHeadYPosition(float y);
   float GetHeadPosX() const;
   float GetHeadPosY() const;
-  bool IsAlive() const;
   void IncrementSpeedBy(float inc); // Increment speed
   void SetHeadAngle(double angle);
   double GetHeadAngle() const;
+  bool IsAlive() const;
   std::vector<Body>& GetBody();
   Head& GetHead();
   

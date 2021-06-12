@@ -17,7 +17,7 @@ The starter code can be found at the repo (https://github.com/udacity/CppND_Caps
 
 ### Object Oriented Programming
 * 7th requirement: Overloaded functions allow the same function to operate on different parameters
-  * files: renderer.h (lines 17 to 45); renderer.cpp (line 18)
+  * files: renderer.h (lines 17 to 45)
 * 5th requirement: Classes encapsulate behaviour
   * files: snake.cpp (lines 5 to 150); snake.h (lines 31 to 47)
 
